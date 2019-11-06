@@ -85,7 +85,7 @@ def renameForWin(fileName, ind=2, path=u'', baseDir=u'',
     ind is index that is incremented per unit in reference to the one 
     used in a file name
     """
-    newFn = re.sub(u'\\|\/|:|\*|\?|"|<|>|\|', replacement, fileName)
+    newFn = re.sub(r'\\|\/|:|\*|\?|"|<|>|\|', replacement, fileName)
     # Compare file names and check if it is unique in the
     # case-insensitive file system
     # When file name is already Windows-friendly, return immediately
@@ -120,10 +120,13 @@ def renameForWin(fileName, ind=2, path=u'', baseDir=u'',
         if not isNono:
             os.rename(fullOld, fullNew)
         if isVerbose:
-            print(u"rename({0}, {1})".format(
-                os.path.relpath(fullOld, baseDir),
-                os.path.relpath(fullNew, baseDir)
-            ))
+            try:
+                print(u"rename({0}, {1})".format(
+                    os.path.relpath(fullOld, baseDir),
+                    os.path.relpath(fullNew, baseDir)
+                ))
+            except (UnicodeDecodeError, UnicodeEncodeError):
+                print(u"rename(<<Unicode filename>>)")
     except UnicodeDecodeError as e:
         # Skip invalid file name
         return (fileName, ind)
@@ -149,7 +152,7 @@ class ValidateStartDir(argparse.Action):
 # Validate replacement
 class ValidateReplacement(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        if re.search(u'\\|\/|:|\*|\?|"|<|>|\|', values):
+        if re.search(r'\\|\/|:|\*|\?|"|<|>|\|', values):
             exitWithError("A replacement parameter cannot contain "+
                 "any of the following characters: "+
                 "\ / : * ? \" < > | ")
