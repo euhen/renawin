@@ -203,7 +203,7 @@ def main():
         action="store_true"
     )
     parser.add_argument("-V", "--version", action="version",
-        version="%(prog)s 0.1.0",
+        version="%(prog)s 0.1.1",
         help="Show program's version number and exit."
     )
     parser.add_argument("-h", "--help", action="help",

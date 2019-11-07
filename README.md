@@ -73,6 +73,7 @@ Any ideas, refactoring or remarks for improving the code would be welcome.
 
 ## Release History
 
+* 0.1.1 Fixed bugs with some symbols/characters
 * 0.1.0 Initial release
 
 ## License
